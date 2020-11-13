@@ -19,3 +19,6 @@ for i in /media/$MDEV/bootstrap/www/*; do
   echo "$i -> /tmp/www/cgi-bin/$(basename $i)"
   ln -sf "$i" "/tmp/www/cgi-bin/$(basename $i)" >> /tmp/hacks.log 2>&1
 done 
+
+cp /media/$MDEV/wifissid.txt /media/mmcblk0p2/data/etc/config/.wifissid
+cp /media/$MDEV/wifipasswd.txt /media/mmcblk0p2/data/etc/config/.wifipasswd

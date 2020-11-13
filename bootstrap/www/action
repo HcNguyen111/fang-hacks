@@ -108,6 +108,16 @@ if [ -n "$F_cmd" ]; then
     echo "Rebooting device...<br/>"
     /sbin/reboot
     ;;
+  poweroff)
+    echo "Powering off...<br/>"
+    /sbin/poweroff
+    ;;
+  showmessages)
+    echo "Contents of /var/log/messages:<br/>"
+    echo "<pre>"
+    cat /var/log/messages
+    echo "</pre>"
+    ;;
   telnetd)
     echo "Starting default telnetd (port 23)...<br/>"
     start_telnetd

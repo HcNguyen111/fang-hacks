@@ -205,16 +205,20 @@ function apply_config() {
 function connect_ssid() {
   var ssid = document.getElementById('ssid_name').textContent;
   var enc = document.getElementById(ssid + '_ENC').value;
-  if (enc != "WPA") { alert("Sorry, " + enc + " encryption is not supported!"); return; }
+  if ((enc != "WPA") && (enc != "None")) { alert("Sorry, " + enc + " encryption is not supported!"); return; }
   var data = {
     action: 'connect',
     ssid: ssid,
     key: document.getElementById('ssid_key').value
   };
-  if (data['key'].length >= 8 && data['key'].length <= 63) {
+  if ((data['key'].length >= 8 && data['key'].length <= 63) || (data['key'].length == 0 && enc == "None")) {
     postData('/cgi-bin/network', data);
   } else {
-    alert("Passphrase must be between 8 and 63 chars!");
+    if (enc == "None") {
+      alert("Passphrase must be blank!");
+    } else {
+      alert("Passphrase must be between 8 and 63 chars!");
+    }
   }
 }
 
@@ -240,13 +244,19 @@ cat << EOF
 window.onload = onLoad;
 </script>
 </head>
+
 <body>
 <h1>Network Settings</h1>
 <hr/>
 <button title='Status page' type='button' onClick="window.location.href='status'">Status</button>
+<button title='Start default telnetd on port 23' type='button' onClick="window.location.href='action?cmd=telnetd'">Start rescue telnetd</button>
 <button title='Reboot the device' type='button' onClick="window.location.href='action?cmd=reboot'">Reboot</button>
-<button title='Info' type='button' onClick="window.location.href='scripts'">Scripts</button>
+<button title='Power off' type='button' onClick="window.location.href='action?cmd=poweroff'">Power off</button>
+<button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
+<button title='Network' type='button' onClick="window.location.href='network'" disabled>Network</button>
+<button title='Configure RTSP' type='button' onClick="window.location.href='cfg_rtsp'">Config RTSP</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
+<button title='View /var/log/messages' type='button' onClick="window.location.href='action?cmd=showmessages'">View messages</button>
 <hr/>
 <div style='clear: both;'><pre>$ACTION_MSG</pre></div>
 <div style='clear: both;'>

@@ -6,8 +6,8 @@ status()
   pid="$(cat "$PIDFILE" 2>/dev/null)"
   if [ "$pid" ]; then
     kill -0 "$pid" 2>/dev/null && echo "PID: $pid" || return 1
-  else
-    echo "no pid"
+  # else
+  #   echo "no pid"
   fi
 }
 

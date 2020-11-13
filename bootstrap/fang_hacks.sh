@@ -147,7 +147,7 @@ elif [ -e /etc/.resize_runonce ]; then
   # Auto-mounted, but may need to be resized
   do_resize && rm /etc/.resize_runonce
 fi
-  
+
 if [ -f "$HACKS_HOME/etc/profile" ]; then
   source "$HACKS_HOME/etc/profile" >/dev/null
 fi
@@ -181,4 +181,3 @@ fi
 logmsg "Running startup scripts"
 run-parts "$HACKS_HOME/etc/scripts"
 logmsg "Finished"
-
