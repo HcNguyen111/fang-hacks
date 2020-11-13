@@ -29,7 +29,7 @@ button, input[type=submit] { background-color: #ddeaff; }
 <button title='Power off' type='button' onClick="window.location.href='action?cmd=poweroff'">Power off</button>
 <button title='Manage scripts' type='button' onClick="window.location.href='scripts'">Manage scripts</button>
 <button title='Network' type='button' onClick="window.location.href='network'">Network</button>
-<button title='Configure RTSP' type='button' onClick="window.location.href='cfg_rtsp'" disabled>Config RTSP</button>
+<button title='Configure RTSP' type='button' onClick="window.location.href='cfg_rtsp'">Config RTSP</button>
 <button title='View /tmp/hacks.log' type='button' onClick="window.location.href='action?cmd=showlog'">View log</button>
 <button title='View /var/log/messages' type='button' onClick="window.location.href='action?cmd=showmessages'">View messages</button>
 <hr/>
