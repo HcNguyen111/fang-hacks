@@ -52,6 +52,12 @@ if [ -n "$F_script" ]; then
         $SCRIPT_HOME/$script stop 2>&1 && echo "OK" || echo "NOK"
         echo "<br/>"
         ;;
+      restart)
+        echo "Restarting script '$script'...<br/>"
+        $SCRIPT_HOME/$script stop 2>&1 && echo "Stopped OK" || echo "Stop failed"
+        echo "<br/>"
+        echo "<pre>$($SCRIPT_HOME/$script 2>&1)</pre>"
+        ;;
       enable)
         echo "Enable script '$script'...<br/>"
         chmod a+x "$SCRIPT_HOME/$script" 2>&1
@@ -75,7 +81,7 @@ if [ ! -d "$SCRIPT_HOME" ]; then
 else
   SCRIPTS=$(ls -A "$SCRIPT_HOME")
   echo "<table class='tbl'>"
-  echo "<tr><th>Service</th><th>Status</th><th/><th/><th/></tr>"
+  echo "<tr><th>Service</th><th>Status</th><th colspan='5'>Script actions</th></tr>"
   for i in $SCRIPTS; do
     echo "<tr>"
     echo "<td>$i</td>"
@@ -101,7 +107,7 @@ else
         if [ -z "$status" ]; then
           echo "<td><button title='Start script' type='button' onClick=\"window.location.href='scripts?cmd=start&script=$i'\">Start</button</td>"
         else
-          echo "<td><button title='Already running' disabled>Start</button>"
+          echo "<td><button title='Already running' disabled>Start</button></td>"
         fi
       else
         echo "<td><button title='Run script' type='button' onClick=\"window.location.href='scripts?cmd=start&script=$i'\">Run</button></td>"
@@ -111,16 +117,27 @@ else
         if [ -n "$status" ]; then
           echo "<td><button title='Stop script' type='button' onClick=\"window.location.href='scripts?cmd=stop&script=$i'\">Stop</button></td>"
         else
-          echo "<td><button title='Not running' disabled>Stop</button>"
+          echo "<td><button title='Not running' disabled>Stop</button></td>"
         fi
       else
-        echo "<td></td>"
+        echo "<td/>"
       fi
+
+      if [ $(grep "^start\(\)" "$SCRIPT_HOME/$i") ]; then
+        if [ -n "$status" ]; then
+          echo "<td><button title='Restart script' type='button' onClick=\"window.location.href='scripts?cmd=restart&script=$i'\">Restart</button</td>"
+        else
+          echo "<td><button title='Not running' disabled>Restart</button></td>"
+        fi
+      else
+        echo "<td/>"
+      fi
+      
       echo "<td><button title='Disable script' type='button' onClick=\"window.location.href='scripts?cmd=disable&script=$i'\">Disable</button></td>"
-     else
+    else
       echo "<td/>"
       echo "<td><button title='Enable script' type='button' onClick=\"window.location.href='scripts?cmd=enable&script=$i'\">Enable</button></td>"
-      echo "<td/><td/>"
+      echo "<td/><td/><td/>"
     fi
     echo "<td><button title='View script' type='button' onClick=\"window.location.href='scripts?cmd=view&script=$i'\">View</button></td>"
     echo "</tr>"
